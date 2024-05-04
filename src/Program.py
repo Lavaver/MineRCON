@@ -38,13 +38,29 @@ def translate_colors(text):
 
     return text
 
-# 检查 showlogo.ini 文件是否存在以及其值是否为 false
+# 检查 showlogo.ini 文件是否存在以及其值是否为 false （不显示字符画）
 show_logo = True
 if os.path.exists("showlogo.ini"):
-    with open("showlogo.ini", "r") as file:
-        show_logo_setting = file.read().strip().lower()
+    with open("showlogo.ini", "r", encoding="utf-8") as file:
+        show_logo_setting = file.readline().strip().lower()
         if show_logo_setting == "false":
             show_logo = False
+else:
+    with open("showlogo.ini", "w", encoding="utf-8") as file:
+        file.write("true\n")
+        file.write("# 有关该配置的更多信息，请参阅 https://lavaver.github.io/Minercon/showlogo_ini\n")
+        file.write("# 如果您想要在下次运行程序时屏蔽字符画，则需要将 true 改为 false 以屏蔽它。\n")
+        file.write("# 如果您是未成年人，在理解这些配置时有困难，请要求您的父母或法定监护人解释，尤其是在您的父母或法定监护人负责修改该程序任何配置时。\n")
+        file.write("\n")
+        file.write("# 该配置的生成时间为 " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    
+    # 获取当前文件所在目录的绝对路径
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 拼接 showlogo.ini 文件的完整路径
+    showlogo_ini_path = os.path.join(current_dir, "showlogo.ini")
+
+    print(ANSIColors.YELLOW + f'字符画配置已初始化在 {showlogo_ini_path} 目录下' + ANSIColors.RESET)
             
 # 检查 eula.ini 文件中的 EULA 条款是否存在，以及 eula 值是否为 true（同意条款）
 if os.path.exists("eula.ini"):
@@ -66,10 +82,18 @@ else:
         file.write("\n")
         file.write("# 该 Eula 的生成时间为 " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         
+         # 获取当前文件所在目录的绝对路径
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 拼接 showlogo.ini 文件的完整路径
+    eula_path = os.path.join(current_dir, "eula.ini")
+        
     print(ANSIColors.RED + "您尚未同意 Minecraft 的 EULA！" + ANSIColors.RESET)
     print(ANSIColors.YELLOW + '如果您不同意条款，我们将无法为您提供软件服务。' + ANSIColors.RESET)
     print(ANSIColors.YELLOW + '请在重新启动程序之前将 eula.ini 中的 "false" 改为 "true" 以签署协议。' + ANSIColors.RESET)
     print(ANSIColors.YELLOW + '有关 Minecraft EULA 的更多信息，请参阅 https://www.minecraft.net/zh-hans/eula' + ANSIColors.RESET)
+    print(ANSIColors.YELLOW + '---------------------------------------' + ANSIColors.RESET)
+    print(ANSIColors.YELLOW + f'Eula 配置已初始化在 {eula_path} 目录下' + ANSIColors.RESET)
     exit()
     
 
@@ -90,7 +114,7 @@ if show_logo:
     print('■■■■■■■■■■   ■■■■■■   ■■■■  ■■■■   ■■■■■■■  ■■■■   ■■■   ■■■■■■     ■■■■■■   ■■■■   ■■ ')
     print('■■■■■ ■■■■   ■■■■■■   ■■■■  ■■■■    ■■■■■   ■■■■   ■■■    ■■■■       ■■■■    ■■■■   ■■ ')
     print('   ' + ANSIColors.RESET)
-    print(ANSIColors.YELLOW + '如果你想要在之后启动中不显示字符画，你可在程序或代码所在文件夹创建 showlogo.ini 并向内部写入 false 来关闭它。' + ANSIColors.RESET)
+    print(ANSIColors.YELLOW + '如果你想要在之后启动中不显示字符画，你可在程序或代码所在文件夹找到 showlogo.ini 并修改为 false 来关闭它。' + ANSIColors.RESET)
 
 print(ANSIColors.GREEN + '欢迎使用 MineRCON！主程序版本 P1.20 - Python 构建版本', sys.version, '- 系统核心版本', platform.uname().release + ANSIColors.RESET)
 
